@@ -1,11 +1,12 @@
 class Api::UsersController < Api::BaseController
+  before_action :find_user, only: [:show, :update, :destroy]
 
   def index
     render_response User.all
   end
 
   def show
-    render_response find_user
+    render_response @user
   end
 
   def create
@@ -15,15 +16,13 @@ class Api::UsersController < Api::BaseController
   end
 
   def update
-    user = find_user
-    user.update!(user_params)
-    render_response user
+    @user.update!(user_params)
+    render_response @user
   end
 
   def destroy
-    user = find_user
-    user.destroy
-    render_response user
+    @user.destroy
+    render_response @user
   end
 
   private
@@ -33,7 +32,7 @@ class Api::UsersController < Api::BaseController
   end
 
   def find_user
-    User.find(params[:id])
+    @user = User.find(params[:id])
   end
 
 end
