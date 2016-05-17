@@ -35,5 +35,5 @@ class UsersController < ApplicationController
   def find_user
     User.find(params[:id])
   end
-  
+
 end

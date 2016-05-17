@@ -1,11 +1,13 @@
 default: &default
   adapter: postgresql
+  encoding: unicode
+  database: <%= ENV['DB_DATABASE_NAME'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
   pool: 5
-  timeout: 5000
 
 development:
   <<: *default
-  database: user_crud
 
 test:
   <<: *default
