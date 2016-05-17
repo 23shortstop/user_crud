@@ -1,4 +1,4 @@
-class Token < ActiveRecord::Base
+class Authentication < ActiveRecord::Base
   before_create :generate_token
 
   protected
@@ -6,7 +6,7 @@ class Token < ActiveRecord::Base
   def generate_token
     self.token = loop do
       random_token = SecureRandom.base64(20)
-      break random_token unless Token.exists?(token: random_token)
+      break random_token unless Authentication.exists?(token: random_token)
     end
   end
 
