@@ -28,7 +28,7 @@ class Api::UsersController < Api::BaseController
   private
 
   def user_params
-    params.permit(:name, :email)
+    params.permit(:name, :email, :password)
   end
 
   def find_user
