@@ -1,5 +1,12 @@
 class Api::BaseController < ::ApplicationController
 
+  class AuthError < StandardError
+  end
+
+  rescue_from AuthError do |e|
+    render_error('Access is denied', 403)
+  end
+
   rescue_from ActiveRecord::RecordNotFound do |e|
     render_error(e.message, 404)
   end
@@ -15,6 +22,13 @@ class Api::BaseController < ::ApplicationController
   def render_error(message, status = 400)
     data = { error: message }
     render_json data, status
+  end
+
+  def authorization(user)
+    token = request.headers["Authorization"]
+    duration = 3000
+    authorization = Authentication.find_actual(user, token, duration)
+    raise AuthError unless authorization
   end
 
   private

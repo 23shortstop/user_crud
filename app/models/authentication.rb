@@ -10,4 +10,9 @@ class Authentication < ActiveRecord::Base
     end
   end
 
+  def self.find_actual(user, token, duration)
+    where("created_at > ? AND user_id = ? AND token = ?",
+      duration.second.ago.utc, user.id, token).take
+  end
+
 end

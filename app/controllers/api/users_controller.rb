@@ -1,5 +1,5 @@
 class Api::UsersController < Api::BaseController
-  before_action :find_user, only: [:show, :update, :destroy]
+  before_action :find_and_authorize_user, only: [:show, :update, :destroy]
 
   def index
     render_response User.all
@@ -31,8 +31,9 @@ class Api::UsersController < Api::BaseController
     params.permit(:name, :email, :password)
   end
 
-  def find_user
+  def find_and_authorize_user
     @user = User.find(params[:id])
+    authorization(@user)
   end
 
 end
