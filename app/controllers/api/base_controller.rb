@@ -1,8 +1,5 @@
 class Api::BaseController < ::ApplicationController
 
-  class AuthError < StandardError
-  end
-
   rescue_from AuthError do |e|
     render_error('Access is denied', 403)
   end
