@@ -26,8 +26,7 @@ class Api::BaseController < ::ApplicationController
 
   def authorization(user)
     token = request.headers["Authorization"]
-    duration = 3000
-    authorization = Authentication.find_actual(user, token, duration)
+    authorization = Authentication.find_actual(user, token)
     raise AuthError unless authorization
   end
 
