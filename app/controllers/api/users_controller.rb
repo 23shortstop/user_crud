@@ -1,5 +1,7 @@
 class Api::UsersController < Api::BaseController
-  before_action :find_and_authorize_user, only: [:show, :update, :destroy]
+  skip_before_action :authorize_user, only: :create
+  before_action :find_user, only: [:show, :update, :destroy]
+  before_action :restrict_access, only: [:show, :update, :destroy]
 
   def index
     render_response User.all
@@ -31,9 +33,12 @@ class Api::UsersController < Api::BaseController
     params.permit(:name, :email, :password)
   end
 
-  def find_and_authorize_user
+  def find_user
     @user = User.find(params[:id])
-    authorization(@user)
+  end
+
+  def restrict_access
+    raise AccessError.new unless @current_session.user == @user
   end
 
 end

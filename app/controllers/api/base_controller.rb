@@ -1,7 +1,14 @@
 class Api::BaseController < ::ApplicationController
+  skip_before_action :verify_authenticity_token
+
+  before_action :authorize_user
+
+  rescue_from AccessError do |e|
+    render_error('Access is denied', 403)
+  end
 
   rescue_from AuthError do |e|
-    render_error('Access is denied', 403)
+    render_error('Not Authorized', 401)
   end
 
   rescue_from ActiveRecord::RecordNotFound do |e|
@@ -21,10 +28,12 @@ class Api::BaseController < ::ApplicationController
     render_json data, status
   end
 
-  def authorization(user)
-    token = request.headers["Authorization"]
-    authorization = Authentication.find_actual(user, token)
-    raise AuthError unless authorization
+  def authorize_user
+    @current_session = authenticate_with_http_token do |token, options|
+      Session.authorize_user_with_token token
+    end
+
+    raise AuthError.new unless @current_session
   end
 
   private
