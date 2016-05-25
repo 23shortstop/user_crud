@@ -3,9 +3,9 @@ class Api::ImagesController < Api::BaseController
   before_action :restrict_access, only: [:show, :update, :destroy]
 
   def index
-    @images = @current_session.user.images
+    images = @current_session.user.images
 
-    render json: @images
+    render_response (paginate images)
   end
 
   def show

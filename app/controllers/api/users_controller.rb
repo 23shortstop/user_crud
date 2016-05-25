@@ -4,7 +4,7 @@ class Api::UsersController < Api::BaseController
   before_action :restrict_access, only: [:show, :update, :destroy]
 
   def index
-    render_response User.all
+    render_response (paginate User.all)
   end
 
   def show
