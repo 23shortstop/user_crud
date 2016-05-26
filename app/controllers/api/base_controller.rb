@@ -33,7 +33,9 @@ class Api::BaseController < ::ApplicationController
       Session.authorize_user_with_token token
     end
 
-    raise AuthError.new unless @current_session
+    @current_user = @current_session.try(:user)
+
+    raise AuthError.new unless @current_user
   end
 
   private

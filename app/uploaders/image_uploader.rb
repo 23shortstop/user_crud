@@ -20,7 +20,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   def imageable_folder
-    "#{model.imageable.class.to_s.underscore}_#{model.imageable.id}"
+    "#{model.imageable_type.underscore}_#{model.imageable_id}"
   end
 
 end

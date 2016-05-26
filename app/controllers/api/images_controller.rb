@@ -3,7 +3,7 @@ class Api::ImagesController < Api::BaseController
   before_action :restrict_access, only: [:show, :update, :destroy]
 
   def index
-    images = @current_session.user.images
+    images = @current_user.images
 
     render_response (paginate images)
   end
@@ -13,7 +13,7 @@ class Api::ImagesController < Api::BaseController
   end
 
   def create
-    image = @current_session.user.images.create
+    image = @current_user.images.create
     image.remote_image_url = image_params
     image.save!
 
@@ -42,6 +42,6 @@ class Api::ImagesController < Api::BaseController
     end
 
     def restrict_access
-      raise AccessError.new unless @current_session.user == @image.imageable
+      raise AccessError.new unless @current_user == @image.imageable
     end
 end

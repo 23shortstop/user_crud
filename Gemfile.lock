@@ -128,3 +128,6 @@ DEPENDENCIES
   pg
   rails (= 4.2.6)
   rails-api
+
+BUNDLED WITH
+   1.11.2

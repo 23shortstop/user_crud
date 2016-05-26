@@ -38,7 +38,7 @@ class Api::UsersController < Api::BaseController
   end
 
   def restrict_access
-    raise AccessError.new unless @current_session.user == @user
+    raise AccessError.new unless @current_user == @user
   end
 
 end
