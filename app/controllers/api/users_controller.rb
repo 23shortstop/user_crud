@@ -14,7 +14,7 @@ class Api::UsersController < Api::BaseController
   def create
     user = User.new(user_params)
     user.save!
-    render_response user
+    render_response user, 201
   end
 
   def update
@@ -24,7 +24,7 @@ class Api::UsersController < Api::BaseController
 
   def destroy
     @user.destroy
-    render_response @user
+    render_response nil, 204
   end
 
   private

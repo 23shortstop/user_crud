@@ -17,7 +17,7 @@ class Api::ImagesController < Api::BaseController
     image.remote_image_url = image_params
     image.save!
 
-    render_response image
+    render_response image, 201
   end
 
   def update
@@ -28,7 +28,7 @@ class Api::ImagesController < Api::BaseController
   def destroy
     @image.destroy
 
-    render_response @image
+    render_response nil, 204
   end
 
   private
