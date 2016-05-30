@@ -5,7 +5,7 @@ class Api::ImagesController < Api::BaseController
   def index
     images = @current_user.images
 
-    render_response (paginate images)
+    render_response images
   end
 
   def show
