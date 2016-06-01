@@ -1,6 +1,4 @@
 class Session < ActiveRecord::Base
-  before_validation :generate_token, on: :create
-
   belongs_to :user
 
   validates :token, uniqueness: true, presence: true
@@ -17,7 +15,7 @@ class Session < ActiveRecord::Base
     user = User.find_by(email: email).try(:authenticate, password)
     raise AuthError.new unless user
 
-    user.sessions.create!
+    self.create_for_user user
   end
 
   protected
@@ -26,8 +24,8 @@ class Session < ActiveRecord::Base
 
   @@token_timeout = ENV['AUTH_TOKEN_TIMEOUT'].to_i
 
-  def generate_token
-    self.token = loop do
+  def self.generate_token
+    loop do
       random_token = SecureRandom.base64(@@token_size)
       break random_token unless Session.exists?(token: random_token)
     end
@@ -36,6 +34,10 @@ class Session < ActiveRecord::Base
   def self.find_actual(token)
     where("created_at > ? AND token = ?",
       @@token_timeout.second.ago.utc, token).take
+  end
+
+  def self.create_for_user(user)
+    Session.create! user: user, token: self.generate_token
   end
 
 end
