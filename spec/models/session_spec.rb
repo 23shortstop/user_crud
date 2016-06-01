@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Session, type: :model do
-  subject { create :session }
+  subject { build :session }
 
   describe 'validations' do
     it { is_expected.to validate_uniqueness_of :token }
@@ -13,7 +13,7 @@ RSpec.describe Session, type: :model do
     it { is_expected.to belong_to :user }
   end
 
-  describe 'authorize user' do
+  describe 'authorize user with credentials' do
     subject(:session) do
       Session.authorize_user_with_credentials(
         auth_email, auth_password
@@ -54,7 +54,7 @@ RSpec.describe Session, type: :model do
     end
   end
 
-  describe 'token' do
+  describe 'authorize user with token' do
     subject(:session) do
       Session.authorize_user_with_token(token)
     end
