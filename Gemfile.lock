@@ -48,6 +48,7 @@ GEM
       json (>= 1.7)
       mime-types (>= 1.16)
     concurrent-ruby (1.0.2)
+    database_cleaner (1.5.3)
     diff-lcs (1.2.5)
     dotenv (2.1.1)
     dotenv-rails (2.1.1)
@@ -150,6 +151,7 @@ DEPENDENCIES
   api-pagination
   bcrypt
   carrierwave
+  database_cleaner
   dotenv-rails
   factory_girl_rails
   faker
