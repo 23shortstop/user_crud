@@ -10,8 +10,8 @@ development:
   <<: *default
 
 test:
-  database: <%= ENV['DB_DATABASE_NAME'] %>_test
   <<: *default
+  database: <%= ENV['DB_DATABASE_NAME'] + '_test'%>
 
 production:
   <<: *default
