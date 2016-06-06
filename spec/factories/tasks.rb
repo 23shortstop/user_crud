@@ -12,15 +12,15 @@ FactoryGirl.define do
         end
       end
 
-      factory :with_negative_angle do
+      factory :rotate_with_negative_angle do
         params { { :angle => -1 } }
       end
 
-      factory :with_exceeding_angle do
+      factory :rotate_with_exceeding_angle do
         params { { :angle => 361 } }
       end
 
-      factory :with_wrong_angle_type do
+      factory :rotate_with_wrong_angle_type do
         params { { :angle => '90' } }
       end
     end
