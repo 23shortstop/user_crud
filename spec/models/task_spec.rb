@@ -12,31 +12,59 @@ RSpec.describe Task, type: :model do
 
   describe 'associations' do
     it { is_expected.to belong_to :user }
-    it { is_expected.to have_one :image }
+    it { is_expected.to belong_to :image }
   end
 
-  describe 'params validation' do
-    context 'resize' do
-      it 'is epect to be valid' do
-        valid_task = build(:task_with_valid_resize_params)
-        expect(valid_task).to be_valid
-      end
-
-      it 'is epect to be invalid' do
-        invalid_tasks = build(:tasks_with_ivalid_resize_params)
-        invalid_tasks.each { |t| expect(t).not_to be_valid }
+  describe "resize" do
+    
+    context 'with valid params' do
+      it 'expected to be valid' do
+        task = create :task, :resize
+        expect(task).to be_valid
       end
     end
 
-    context 'rotate' do
-      it 'is epect to be valid' do
-        valid_task = build(:task_with_valid_rotate_params)
-        expect(valid_task).to be_valid
+    context 'with invalid params' do
+      let(:valid_dimension) { Faker::Number.number(3) }
+      let(:invalid_params_list) { [
+          nil,
+          { :height => valid_dimension },
+          { :width => valid_dimension },
+          { :width => -1, :height => valid_dimension },
+          { :width => valid_dimension, :height => -1 },
+          { :width => '100', :height => valid_dimension },
+          { :width => valid_dimension, :height => '100' }
+        ] }
+      it 'expected to be invalid' do
+        invalid_params_list.each do |invalid_params|
+          task = create :task, :resize, params: invalid_params
+          expect(task).not_to be_valid
+        end
       end
+    end
+  end
 
-      it 'is epect to be invalid' do
-        invalid_tasks = build(:tasks_with_ivalid_rotate_params)
-        invalid_tasks.each { |t| expect(t).not_to be_valid }
+  describe "rotate" do
+    
+    context 'with valid params' do
+      it 'expected to be valid' do
+        task = create :task, :rotate
+        expect(task).to be_valid
+      end
+    end
+
+    context 'with invalid params' do
+      let(:invalid_params_list) { [
+          nil,
+          { :angle => -1 },
+          { :angle => 361 },
+          { :angle => '90' }
+        ] }
+      it 'expected to be invalid' do
+        invalid_params_list.each do |invalid_params|
+          task = create :task, :rotate, params: invalid_params
+          expect(task).not_to be_valid
+        end
       end
     end
   end
