@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160525133455) do
+ActiveRecord::Schema.define(version: 20160606064235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "images", force: :cascade do |t|
     t.string  "image"
@@ -32,6 +33,18 @@ ActiveRecord::Schema.define(version: 20160525133455) do
   end
 
   add_index "sessions", ["user_id"], name: "index_sessions_on_user_id", using: :btree
+
+  create_table "tasks", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "image_id"
+    t.string  "status"
+    t.string  "type"
+    t.hstore  "params"
+    t.string  "result"
+  end
+
+  add_index "tasks", ["image_id"], name: "index_tasks_on_image_id", using: :btree
+  add_index "tasks", ["user_id"], name: "index_tasks_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
