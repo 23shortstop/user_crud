@@ -11,8 +11,8 @@ FactoryGirl.define do
   trait :resize do
     type { :resize }
     params do
-     { :width => Faker::Number.number(3),
-       :height => Faker::Number.number(3) }
+     { :width => Faker::Number.number(3).to_i,
+       :height => Faker::Number.number(3).to_i }
     end
   end
 

@@ -4,6 +4,8 @@ class Task < ActiveRecord::Base
     validates :status, presence: true
     validates :type, presence: true
 
+    validates :params, task_params: true
+
     belongs_to :user
     belongs_to :image
 

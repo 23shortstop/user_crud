@@ -25,7 +25,7 @@ RSpec.describe Task, type: :model do
     end
 
     context 'with invalid params' do
-      let(:valid_dimension) { Faker::Number.number(3) }
+      let(:valid_dimension) { Faker::Number.number(3).to_i }
       let(:invalid_params_list) { [
           nil,
           { :height => valid_dimension },
@@ -37,8 +37,8 @@ RSpec.describe Task, type: :model do
         ] }
       it 'expected to be invalid' do
         invalid_params_list.each do |invalid_params|
-          task = create :task, :resize, params: invalid_params
-          expect(task).not_to be_valid
+          task = build :task, :resize, params: invalid_params
+          expect(task).to_not be_valid
         end
       end
     end
@@ -62,8 +62,8 @@ RSpec.describe Task, type: :model do
         ] }
       it 'expected to be invalid' do
         invalid_params_list.each do |invalid_params|
-          task = create :task, :rotate, params: invalid_params
-          expect(task).not_to be_valid
+          task = build :task, :rotate, params: invalid_params
+          expect(task).to_not be_valid
         end
       end
     end

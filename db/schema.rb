@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20160606064235) do
     t.integer "image_id"
     t.string  "status"
     t.string  "type"
-    t.hstore  "params"
+    t.json    "params"
     t.string  "result"
   end
 

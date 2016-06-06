@@ -5,7 +5,7 @@ class CreateTasks < ActiveRecord::Migration
       t.references :image, index: true
       t.string :status
       t.string :type
-      t.hstore :params
+      t.json :params
       t.string :result
     end
   end
