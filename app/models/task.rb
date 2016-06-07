@@ -6,6 +6,12 @@ class Task < ActiveRecord::Base
 
     validates :params, task_params: true
 
+    validates_inclusion_of :status,
+      in: ['new', 'pending', 'done']
+
+    validates_inclusion_of :type,
+      in: ['resize', 'rotate', 'negate']
+
     belongs_to :user
     belongs_to :image
 
