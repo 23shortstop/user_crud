@@ -1,5 +1,5 @@
 class ImageSerializer < BaseSerializer
-  attributes :image
+  attributes :id, :image
 
   def image
     object.image.url
