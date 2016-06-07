@@ -9,7 +9,7 @@ FactoryGirl.define do
   end
 
   trait :resize do
-    type { :resize }
+    operation { :resize }
     params do
      { :width => Faker::Number.number(3).to_i,
        :height => Faker::Number.number(3).to_i }
@@ -17,7 +17,7 @@ FactoryGirl.define do
   end
 
   trait :rotate do
-    type { :rotate }
+    operation { :rotate }
     params do
       { :angle => Faker::Number.between(0, 360) }
     end

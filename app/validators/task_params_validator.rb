@@ -1,7 +1,7 @@
 class TaskParamsValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     message = 
-    case record.type
+    case record.operation
     when 'resize'
 
       case value

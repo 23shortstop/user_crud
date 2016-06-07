@@ -4,7 +4,7 @@ RSpec.describe Task, type: :model do
   subject { build :task }
 
   describe 'general validations' do
-    it { is_expected.to validate_presence_of :type }
+    it { is_expected.to validate_presence_of :operation }
     it { is_expected.to validate_presence_of :status }
     it { is_expected.to validate_presence_of :user }
     it { is_expected.to validate_presence_of :image }
@@ -21,7 +21,7 @@ RSpec.describe Task, type: :model do
         in_array([:new, :pending, :done])
     end
     it do
-      should validate_inclusion_of(:type).
+      should validate_inclusion_of(:operation).
         in_array([:resize, :rotate, :negate])
     end
   end
