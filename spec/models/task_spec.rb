@@ -15,6 +15,17 @@ RSpec.describe Task, type: :model do
     it { is_expected.to belong_to :image }
   end
 
+  describe 'inclusion' do
+    it do
+      should validate_inclusion_of(:status).
+        with([:new, :pending, :done])
+    end
+    it do
+      should validate_inclusion_of(:type).
+        with([:resize, :rotate, :negate])
+    end
+  end
+
   describe "resize" do
     
     context 'with valid params' do
