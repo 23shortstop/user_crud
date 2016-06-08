@@ -19,6 +19,16 @@ class Task < ActiveRecord::Base
 
   mount_uploader :result, ImageUploader
 
+  def set_result(resulr_url)
+    self.remote_result_url = resulr_url
+    self.status = 'done'
+    task.save!
+  end
+
+  def set_error(msg)
+    self.update!(status: 'error', error: msg)
+  end
+
   private
 
   def set_defaults

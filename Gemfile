@@ -9,6 +9,7 @@ gem 'bcrypt'
 gem 'carrierwave'
 gem 'kaminari'
 gem 'api-pagination'
+gem 'httparty'
 
 group :test, :development do 
   gem 'rspec-rails'
