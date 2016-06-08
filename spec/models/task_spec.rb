@@ -18,7 +18,7 @@ RSpec.describe Task, type: :model do
   describe 'inclusion' do
     it do
       should validate_inclusion_of(:status).
-        in_array([:new, :pending, :done])
+        in_array([:new, :pending, :done, :error])
     end
     it do
       should validate_inclusion_of(:operation).

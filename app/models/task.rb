@@ -9,7 +9,7 @@ class Task < ActiveRecord::Base
   validates :params, task_params: true
 
   validates_inclusion_of :status,
-    in: ['new', 'pending', 'done']
+    in: ['new', 'pending', 'done', 'error']
 
   validates_inclusion_of :operation,
     in: ['resize', 'rotate', 'negate']

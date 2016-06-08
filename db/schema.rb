@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160607193515) do
+ActiveRecord::Schema.define(version: 20160608203511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20160607193515) do
     t.string  "operation"
     t.json    "params"
     t.string  "result"
+    t.string  "error"
   end
 
   add_index "tasks", ["image_id"], name: "index_tasks_on_image_id", using: :btree
