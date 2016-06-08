@@ -23,6 +23,5 @@ class Task < ActiveRecord::Base
 
   def set_defaults
     self.status = 'new'
-    self.operation ||= 'negate'
   end
 end
