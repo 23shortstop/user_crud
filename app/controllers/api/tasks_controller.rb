@@ -1,6 +1,8 @@
 class Api::TasksController < Api::BaseController
   before_action :find_task, only: [:show]
-  before_action :restrict_access, only: [:show]
+  before_action :restrict_task_access, only: [:show]
+  before_action :find_image, only: [:create]
+  before_action :restrict_image_access, only: [:create]
 
   def index
     tasks = @current_user.tasks
@@ -13,7 +15,7 @@ class Api::TasksController < Api::BaseController
   end
 
   def create
-    task = Task.new( { :image => Image.find(params[:image]),
+    task = Task.new( { :image => @image,
                        :operation => params[:operation],
                        :params => params[:params].as_json,
                        :user => @current_user } )
@@ -28,8 +30,16 @@ class Api::TasksController < Api::BaseController
     @task = Task.find(params[:id])
   end
 
-  def restrict_access
+  def find_image
+    @image = Image.find(params[:image])
+  end
+
+  def restrict_task_access
     raise AccessError.new unless @current_user == @task.user
+  end
+
+  def restrict_image_access
+    raise AccessError.new unless @current_user == @image.imageable
   end
 
 end
