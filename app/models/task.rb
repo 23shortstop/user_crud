@@ -1,6 +1,5 @@
 class Task < ActiveRecord::Base
   after_initialize :set_defaults
-  after_create :process
 
   validates :image, presence: true
   validates :user, presence: true
@@ -34,9 +33,5 @@ class Task < ActiveRecord::Base
 
   def set_defaults
     self.status = 'new'
-  end
-
-  def process
-    TaskWorker.perform_async(self.id)
   end
 end

@@ -18,6 +18,7 @@ class Api::TasksController < Api::BaseController
                        :params => params[:params].as_json,
                        :user => @current_user } )
     task.save!
+    TaskWorker.perform_async(task.id)
     render_response task, 201
   end
 

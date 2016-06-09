@@ -10,11 +10,13 @@ class TaskProcessor
 
     task.update!(status: 'pending')
 
-    handle self.class.post('/task', :body => params), task
+    response = self.class.post('/task', :body => params)
+    handle response, task
   end
 
   def get_result(task)
-    handle self.class.get("/task/#{task.id}"), task
+    response = self.class.get("/task/#{task.id}")
+    handle response, task
   end
 
   private
@@ -27,18 +29,16 @@ class TaskProcessor
   end
 
   def handle_success(body, task)
-    case body(:status)
+    case body[:status]
       when :pending
         self.delay_until(2.sec.from_now).get_result(task)
       when :done
-        task.set_result(body(:result))
+        task.set_result(body[:result])
     end
-
-    task.set_result(body(:result)) if body(:status) == :done
   end
 
   def handle_error(body, task)
-    task.set_error(body(:error))
+    task.set_error(body[:error])
   end
 
 end
