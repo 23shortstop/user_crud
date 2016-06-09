@@ -5,26 +5,35 @@ class TaskProcessor
 
   def process(task)
     params = {:operation => task.operation,
-              :image => task.image.url,
+              :image => task.image.image.url,
               :params => task.params }.to_json
 
-    handle post('/task', :body => params), task
+    task.update!(status: 'pending')
+
+    handle self.class.post('/task', :body => params), task
   end
 
   def get_result(task)
-    handle get("/task/#{task.id}"), task
+    handle self.class.get("/task/#{task.id}"), task
   end
 
   private
 
   def handle(response, task)
     case response.code
-      when 200 handle_success(response.body, task)
+      when 200 then handle_success(response.body, task)
       else handle_error(response.body, task)
     end
   end
 
   def handle_success(body, task)
+    case body(:status)
+      when :pending
+        self.delay_until(2.sec.from_now).get_result(task)
+      when :done
+        task.set_result(body(:result))
+    end
+
     task.set_result(body(:result)) if body(:status) == :done
   end
 

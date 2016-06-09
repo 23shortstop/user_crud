@@ -10,6 +10,7 @@ gem 'carrierwave'
 gem 'kaminari'
 gem 'api-pagination'
 gem 'httparty'
+gem 'sidekiq'
 
 group :test, :development do 
   gem 'rspec-rails'

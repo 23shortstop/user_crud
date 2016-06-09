@@ -1,5 +1,6 @@
 class Task < ActiveRecord::Base
   after_initialize :set_defaults
+  after_create :process
 
   validates :image, presence: true
   validates :user, presence: true
@@ -22,7 +23,7 @@ class Task < ActiveRecord::Base
   def set_result(resulr_url)
     self.remote_result_url = resulr_url
     self.status = 'done'
-    task.save!
+    self.save!
   end
 
   def set_error(msg)
@@ -33,5 +34,9 @@ class Task < ActiveRecord::Base
 
   def set_defaults
     self.status = 'new'
+  end
+
+  def process
+    TaskWorker.perform_async(self.id)
   end
 end
