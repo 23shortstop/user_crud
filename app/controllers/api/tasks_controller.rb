@@ -17,7 +17,7 @@ class Api::TasksController < Api::BaseController
   def create
     task = Task.new( { :image => @image,
                        :operation => params[:operation],
-                       :params => params[:params].as_json,
+                       :params => params[:params],
                        :user => @current_user } )
     task.save!
     TaskWorker.perform_async(task.id)
