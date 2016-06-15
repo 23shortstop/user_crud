@@ -11,7 +11,6 @@ gem 'kaminari'
 gem 'api-pagination'
 gem 'httparty'
 gem 'sidekiq'
-gem 'sidekiq-delay'
 
 group :test, :development do 
   gem 'rspec-rails'

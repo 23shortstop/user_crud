@@ -1,6 +1,5 @@
 class TaskProcessor
   include HTTParty
-  include Sidekiq::Delay
 
   base_uri ENV['IMAGE_PROCESSOR_URI']
   format :json
@@ -8,11 +7,11 @@ class TaskProcessor
   def process(task)
     params = {:operation => task.operation,
               :image => task.image.image.url,
-              :params => task.params }.to_json
+              :params => task.params }
 
     task.update!(status: 'pending')
 
-    response = self.class.post('/task', :body => params)
+    response = self.class.post('/task', :query => params)
     handle response, task
   end
 
@@ -32,16 +31,16 @@ class TaskProcessor
   end
 
   def handle_success(body, task)
-    case body[:status]
-      when :done
-        task.set_result(body[:result])
+    case body['status']
+      when 'done'
+        task.set_result(body['result'])
       else
-        self.delay_until(2.sec.from_now).get_result(task.id, body[:id])
+        self.delay.get_result(task.id, body['id'], 2)
     end
   end
 
   def handle_error(body, task)
-    task.set_error(body[:error])
+    task.set_error(body['error'])
   end
 
 end

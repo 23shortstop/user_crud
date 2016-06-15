@@ -1,3 +1,5 @@
+require "./app/workers/task_worker"
+
 class Api::TasksController < Api::BaseController
   before_action :find_task, only: [:show]
   before_action :restrict_task_access, only: [:show]

@@ -177,6 +177,3 @@ DEPENDENCIES
   shoulda-matchers
   sidekiq
   sidekiq-delay
-
-BUNDLED WITH
-   1.11.2
