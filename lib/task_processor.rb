@@ -1,5 +1,6 @@
 class TaskProcessor
   include HTTParty
+  include Sidekiq::Extensions::Klass
 
   base_uri ENV['IMAGE_PROCESSOR_URI']
   format :json
@@ -17,16 +18,18 @@ class TaskProcessor
 
   def get_result(task_id, processing_task_id)
     task = Task.find(task_id)
-    response = self.class.get("/task/#{processing_task_id}")
+    params = { :id => processing_task_id }
+    response = self.class.get('/task', :query => params)
     handle response, task
   end
 
   private
 
   def handle(response, task)
+    hash_body = JSON.parse(response.body)
     case response.code
-      when 200 then handle_success(response.body, task)
-      else handle_error(response.body, task)
+      when 200 then handle_success(hash_body, task)
+      else handle_error(hash_body, task)
     end
   end
 
@@ -35,7 +38,7 @@ class TaskProcessor
       when 'done'
         task.set_result(body['result'])
       else
-        self.delay.get_result(task.id, body['id'], 2)
+        self.sidekiq_delay_until(Time.now + 2).get_result(task.id, body['id'])
     end
   end
 

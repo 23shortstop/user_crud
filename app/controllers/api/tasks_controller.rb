@@ -13,7 +13,7 @@ class Api::TasksController < Api::BaseController
   end
 
   def show
-    render_response @task
+    render_response find_task
   end
 
   def create
